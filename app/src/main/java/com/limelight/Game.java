@@ -1760,14 +1760,14 @@ public class Game extends Activity implements SurfaceHolder.Callback,
         }
     }
 
-    private boolean sendTouchEventForPointer(View view, MotionEvent event, byte eventType, int pointerIndex) {
+    private boolean sendTouchEventForPointer(View view, MotionEvent event, byte eventType, int pointerIndex, boolean finalEvent) {
         float[] normalizedCoords = getStreamViewRelativeNormalizedXY(view, event, pointerIndex);
         float[] normalizedContactArea = getStreamViewNormalizedContactArea(event, pointerIndex);
         return conn.sendTouchEvent(eventType, event.getPointerId(pointerIndex),
                 normalizedCoords[0], normalizedCoords[1],
                 getPressureOrDistance(event, pointerIndex),
                 normalizedContactArea[0], normalizedContactArea[1],
-                getRotationDegrees(event, pointerIndex)) != MoonBridge.LI_ERR_UNSUPPORTED;
+                getRotationDegrees(event, pointerIndex), finalEvent) != MoonBridge.LI_ERR_UNSUPPORTED;
     }
 
     private boolean trySendTouchEvent(View view, MotionEvent event) {
@@ -1780,7 +1780,7 @@ public class Game extends Activity implements SurfaceHolder.Callback,
         if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
             // Move events may impact all active pointers
             for (int i = 0; i < event.getPointerCount(); i++) {
-                if (!sendTouchEventForPointer(view, event, eventType, i)) {
+                if (!sendTouchEventForPointer(view, event, eventType, i, true)) {
                     return false;
                 }
             }
@@ -1790,7 +1790,7 @@ public class Game extends Activity implements SurfaceHolder.Callback,
             // Cancel impacts all active pointers
             return conn.sendTouchEvent(MoonBridge.LI_TOUCH_EVENT_CANCEL_ALL, 0,
                     0, 0, 0, 0, 0,
-                    MoonBridge.LI_ROT_UNKNOWN) != MoonBridge.LI_ERR_UNSUPPORTED;
+                    MoonBridge.LI_ROT_UNKNOWN, true) != MoonBridge.LI_ERR_UNSUPPORTED;
         }
         else {
             // Up, Down, and Hover events are specific to the action index
