@@ -47,9 +47,9 @@ Java_com_limelight_nvstream_jni_MoonBridge_sendTouchEvent(JNIEnv *env, jclass cl
                                                           jbyte eventType, jint pointerId,
                                                           jfloat x, jfloat y, jfloat pressureOrDistance,
                                                           jfloat contactAreaMajor, jfloat contactAreaMinor,
-                                                          jshort rotation) {
+                                                          jshort rotation, jboolean finalEvent) {
     return LiSendTouchEvent(eventType, pointerId, x, y, pressureOrDistance,
-                            contactAreaMajor, contactAreaMinor, rotation);
+                            contactAreaMajor, contactAreaMinor, rotation, finalEvent);
 }
 
 JNIEXPORT jint JNICALL

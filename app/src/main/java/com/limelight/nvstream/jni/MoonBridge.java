@@ -374,7 +374,7 @@ public class MoonBridge {
                                     short rightStickX, short rightStickY);
 
     public static native int sendTouchEvent(byte eventType, int pointerId, float x, float y, float pressure,
-                                            float contactAreaMajor, float contactAreaMinor, short rotation);
+                                            float contactAreaMajor, float contactAreaMinor, short rotation, boolean finalEvent);
 
     public static native int sendPenEvent(byte eventType, byte toolType, byte penButtons, float x, float y,
                                           float pressure, float contactAreaMajor, float contactAreaMinor,

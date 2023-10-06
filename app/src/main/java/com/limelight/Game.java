@@ -1772,6 +1772,7 @@ public class Game extends Activity implements SurfaceHolder.Callback,
 
     private boolean trySendTouchEvent(View view, MotionEvent event) {
         byte eventType = getLiTouchTypeFromEvent(event);
+        boolean finalEvent = false;
         if (eventType < 0) {
             return false;
         }
@@ -1793,8 +1794,17 @@ public class Game extends Activity implements SurfaceHolder.Callback,
         }
         else {
             // Up, Down, and Hover events are specific to the action index
-            return sendTouchEventForPointer(view, event, eventType, event.getActionIndex());
+            for (int i = 0; i < event.getPointerCount(); i++) {
+                if (i == event.getPointerCount() - 1) {
+                    finalEvent = true;
+                }
+                if (!sendTouchEventForPointer(view, event, eventType, i, finalEvent)) {
+                    return false;
+                }
+                return true;
+            }
         }
+        return true;
     }
 
     // Returns true if the event was consumed

@@ -531,10 +531,10 @@ public class NvConnection {
     }
 
     public int sendTouchEvent(byte eventType, int pointerId, float x, float y, float pressureOrDistance,
-                              float contactAreaMajor, float contactAreaMinor, short rotation) {
+                              float contactAreaMajor, float contactAreaMinor, short rotation, boolean finalEvent) {
         if (!isMonkey) {
             return MoonBridge.sendTouchEvent(eventType, pointerId, x, y, pressureOrDistance,
-                    contactAreaMajor, contactAreaMinor, rotation);
+                    contactAreaMajor, contactAreaMinor, rotation, finalEvent);
         }
         else {
             return MoonBridge.LI_ERR_UNSUPPORTED;
